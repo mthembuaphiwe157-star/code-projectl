@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sort Tournament — Bubble Sort & Quick Sort</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body onclick ="bgMusic.play()">
+  <div class="app-stars"></div>
+  <button id="backBtn" class="back-btn hidden">← Back</button>
+  <div id="feedback" class="feedback"></div>
+
+  <!-- ============ LANDING ============ -->
+  <main id="screen-landing" class="landing-wrap screen">
+    <header style="text-align:center">
+      <h1 class="landing-title">SORT TOURNAMENT</h1>
+      <div class="landing-sub">Choose your challenge</div>
+    </header>
+    <section class="landing-cards">
+      <div class="big-card bubble-card" data-go="bubble-picker" role="button" tabindex="0">
+        <div class="big-card-art">
+          <div class="bubble-preview">
+            <div class="bp-bubble" style="width:70px;height:70px;top:10px;left:12%">8</div>
+            <div class="bp-bubble" style="width:50px;height:50px;top:30px;left:40%">15</div>
+            <div class="bp-bubble" style="width:60px;height:60px;top:5px;left:65%">4</div>
+            <div class="bp-bubble" style="width:55px;height:55px;top:80px;left:20%">4</div>
+            <div class="bp-bubble" style="width:64px;height:64px;top:95px;left:48%">2</div>
+            <div class="bp-bubble" style="width:70px;height:70px;top:70px;left:72%">7</div>
+            <div class="bp-bubble" style="width:38px;height:38px;top:130px;left:38%">7</div>
+          </div>
+        </div>
+        <div class="big-card-title">BUBBLE SORT</div>
+      </div>
+      <div class="big-card quick-card" data-go="quick-setup" role="button" tabindex="0">
+        <div class="big-card-art">
+          <div class="quick-preview">
+            <div class="qp-track">
+              <div class="qp-box" style="background:#e5e7eb">23</div>
+              <div class="qp-box" style="background:#fde68a">11</div>
+              <div class="qp-box" style="background:#60a5fa;color:#fff">39</div>
+              <div class="qp-box" style="background:#86efac">4</div>
+              <div class="qp-box" style="background:#fca5a5">5</div>
+            </div>
+            <div class="qp-runner">🏃</div>
+          </div>
+        </div>
+        <div class="big-card-title">QUICK SORT</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ BUBBLE PICKER ============ -->
+  <div id="screen-bubble-picker" class="app-shell screen hidden">
+    <div style="text-align:center;margin-bottom:32px">
+      <h1 class="landing-title" style="font-size:2.4rem">BUBBLE SORT</h1>
+      <div class="landing-sub">Pick a game</div>
+    </div>
+    <div class="subgame-grid">
+      <div class="subgame-card" data-go="num-setup">
+        <div class="subgame-art">
+          <div class="nb-grid">
+            <div class="nb-cell" style="background:#3b82f6">1</div>
+            <div class="nb-cell" style="background:#22c55e">2</div>
+            <div class="nb-cell" style="background:#eab308">3</div>
+            <div class="nb-cell" style="background:#f97316">4</div>
+            <div class="nb-cell" style="background:#ef4444">5</div>
+            <div class="nb-cell" style="background:transparent;border:none"></div>
+          </div>
+        </div>
+        <div class="label">NUMERIC</div>
+      </div>
+      <div class="subgame-card" data-go="gh-setup">
+        <div class="subgame-art">
+          <div style="display:flex;align-items:flex-end;gap:6px">
+            <span style="font-size:40px">🧍🏻‍♂️</span>
+            <span style="font-size:60px">🧍🏻‍♂️</span>
+            <span style="font-size:80px">🧍🏻‍♂️</span>
+            <span style="font-size:100px">🧍🏻‍♂️</span>
+          </div>
+        </div>
+        <div class="label">GUESS HEIGHT</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NUMERIC ============ -->
+  <div id="screen-num-setup" class="app-shell screen hidden">
+    <div class="panel">
+      <h1>NUMERIC</h1>
+      <div class="subtitle">Bubble Sort</div>
+      <div class="field">
+        <label>Number of Players (1–10)</label>
+        <input id="num-players" type="number" min="1" max="10" value="1" />
+      </div>
+      <div class="field">
+        <label>Difficulty</label>
+        <div class="mode-group" id="num-diff">
+          <div class="mode-opt" data-val="easy">Easy</div>
+          <div class="mode-opt selected" data-val="normal">Normal</div>
+          <div class="mode-opt" data-val="hard">Hard ✱</div>
+        </div>
+      </div>
+      <button class="btn-primary" id="num-start">GET STARTED</button>
+    </div>
+  </div>
+
+  <div id="screen-num-intro" class="app-shell screen hidden">
+    <div class="panel">
+      <h1 id="num-intro-title">NEXT: PLAYER 1</h1>
+      <button class="btn-primary" style="margin-top:18px" id="num-intro-go">START</button>
+    </div>
+  </div>
+
+  <div id="screen-num-play" class="app-shell screen hidden">
+    <div class="hud">
+      <div class="hud-item">PLAYER:<span id="num-hud-p">1</span></div>
+      <div class="hud-item">SCORE:<span id="num-hud-s">0</span></div>
+      <div class="hud-item">TIME:<span id="num-hud-t">00:60</span></div>
+    </div>
+    <div class="sort-label">Should these two swap? (Smallest to Largest)</div>
+    <div class="numbers-row" id="num-row"></div>
+    <div class="action-row">
+      <button class="btn-action btn-yes" data-num-ans="1">YES</button>
+      <button class="btn-action btn-no" data-num-ans="0">NO</button>
+    </div>
+  </div>
+
+  <div id="screen-num-over" class="app-shell screen hidden">
+    <div class="panel" style="max-width:600px">
+      <h1>🏆 GAME OVER</h1>
+      <div id="num-lb" style="margin-top:18px"></div>
+      <button class="btn-primary" style="margin-top:22px" id="num-again">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <!-- ============ GUESS HEIGHT ============ -->
+  <div id="screen-gh-setup" class="app-shell screen hidden">
+    <div class="gh-setup-layout">
+      <div class="hero-character">🧍🏻‍♂️</div>
+      <div class="panel" style="max-width:380px">
+        <h1>GUESS HEIGHT</h1>
+        <div class="subtitle">Bubble Sort Tournament</div>
+        <div class="field">
+          <label>Number of Players (1–10)</label>
+          <input id="gh-players" type="number" min="1" max="10" value="1" />
+        </div>
+        <div class="field">
+          <label>Level Selection</label>
+          <div class="mode-group" id="gh-level">
+            <div class="mode-opt selected" data-val="countdown">⏱ Countdown</div>
+            <div class="mode-opt" data-val="stopwatch">🕐 Stopwatch</div>
+          </div>
+        </div>
+        <button class="btn-primary" id="gh-start">GET STARTED</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-gh-color" class="app-shell screen hidden">
+    <div class="panel" style="max-width:480px">
+      <h1 style="font-size:1.4rem" id="gh-color-title">Player 1: Pick a Color</h1>
+      <div class="color-grid" id="gh-colors" style="margin:24px auto 0"></div>
+    </div>
+  </div>
+
+  <div id="screen-gh-play" class="app-shell screen hidden">
+    <div class="hud">
+      <div class="hud-item">PLAYER:<span id="gh-hud-p">1</span></div>
+      <div class="hud-item">SCORE:<span id="gh-hud-s">0</span></div>
+      <div class="hud-item">TIME:<span id="gh-hud-t">00:60</span></div>
+    </div>
+    <div class="sort-label">Should these two swap? (Shortest to Tallest)</div>
+    <div class="gh-row" id="gh-row"></div>
+    <div class="action-row" style="margin-top:24px">
+      <button class="btn-action btn-yes" data-gh-ans="1">YES</button>
+      <button class="btn-action btn-no" data-gh-ans="0">NO</button>
+      <button class="btn-action btn-submit hidden" id="gh-submit">SUBMIT</button>
+    </div>
+  </div>
+
+  <div id="screen-gh-modal" class="modal-overlay screen hidden">
+    <div class="modal-box">
+      <h2>TURN FINISHED!</h2>
+      <div class="gh-row" id="gh-modal-row" style="min-height:220px;gap:18px;display:none"></div>
+      <div class="modal-actions">
+        <button class="btn-primary" id="gh-show">SHOW HEIGHTS</button>
+        <button class="btn-primary hidden" id="gh-proceed">PROCEED</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-gh-over" class="app-shell screen hidden">
+    <div class="panel" style="max-width:620px">
+      <h1>🏆 LEADERBOARD</h1>
+      <div id="gh-lb" style="margin-top:18px"></div>
+      <button class="btn-primary" style="margin-top:22px" id="gh-again">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <!-- ============ QUICK SORT ============ -->
+  <div id="screen-quick-setup" class="app-shell screen hidden">
+    <div class="panel">
+      <h1>QUICK SORT</h1>
+      <div class="subtitle" style="color:#fdba74">Middle Pivot Edition</div>
+      <div class="field">
+        <label>Number of Players (1–10)</label>
+        <input id="qs-players" type="number" min="1" max="10" value="2" />
+      </div>
+      <div class="field">
+        <label>Game Mode</label>
+        <div class="mode-group" id="qs-mode">
+          <div class="mode-opt accent-orange selected" data-val="countdown">⏱ Countdown</div>
+          <div class="mode-opt accent-orange" data-val="stopwatch">🕐 Stopwatch</div>
+        </div>
+      </div>
+      <button class="btn-primary accent-orange" id="qs-start">GET STARTED</button>
+    </div>
+  </div>
+
+  <div id="screen-quick-color" class="app-shell screen hidden">
+    <div class="panel" style="max-width:480px">
+      <h1 style="font-size:1.4rem" id="qs-color-title">Player 1: Pick a Color</h1>
+      <div class="color-grid" id="qs-colors" style="margin:24px auto 0"></div>
+    </div>
+  </div>
+
+  <div id="screen-quick-intro" class="app-shell screen hidden">
+    <div class="panel">
+      <h1 id="qs-intro-title">READY, PLAYER 1?</h1>
+      <div style="height:16px"></div>
+      <button class="btn-primary accent-orange" id="qs-intro-go">START TURN</button>
+    </div>
+  </div>
+
+  <div id="screen-quick-play" class="app-shell screen hidden">
+    <div class="hud">
+      <div class="hud-item">PLAYER:<span id="qs-hud-p">1</span></div>
+      <div class="hud-item">SCORE:<span id="qs-hud-s">0</span></div>
+      <div class="hud-item">TIME:<span id="qs-hud-t">1:00</span></div>
+    </div>
+    <div class="qs-row" id="qs-row"></div>
+    <div id="qs-question" class="qs-question" style="margin-top:24px"></div>
+  </div>
+
+  <div id="screen-quick-over" class="app-shell screen hidden">
+    <div class="panel" style="max-width:560px">
+      <h1>🏆 FINAL RESULTS</h1>
+      <div id="qs-lb" style="margin-top:20px"></div>
+      <button class="btn-primary accent-orange" style="margin-top:24px" id="qs-again">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
